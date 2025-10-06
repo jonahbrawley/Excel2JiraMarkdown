@@ -113,7 +113,7 @@ var micromarkdown = {
       str = str.replace(stra[0], repstr + '\n');
     }
 
-    /* tables */
+    // /* tables */
     while ((stra = micromarkdown.regexobject.tables.exec(str)) !== null) {
       repstr = '<table><tr>';
       helper = stra[1].split('|');
@@ -160,6 +160,86 @@ var micromarkdown = {
       repstr += '</table>';
       str = str.replace(stra[0], repstr);
     }
+
+    /* jira tables */
+    // while ((stra = micromarkdown.regexobject.tables.exec(str)) !== null) {
+    //   // START: Change for Jira Table Syntax
+    //   // Original: repstr = '<table><tr>';
+    //   repstr = '||'; // Start header row with ||
+    //   // END: Change for Jira Table Syntax
+
+    //   helper = stra[1].split('|');
+    //   calign = stra[4].split('|');
+
+    //   // The alignment logic (calign) is still run, but we will ignore it for the output.
+    //   // We keep it for safety in case other parts of the script rely on it.
+    //   for (i = 0; i < helper.length; i++) {
+    //     if (calign.length <= i) {
+    //       calign.push(0);
+    //     } else if ((calign[i].trimRight().slice(-1) === ':') && (strict !== true)) {
+    //       if (calign[i][0] === ':') {
+    //         calign[i] = 3;
+    //       } else {
+    //         calign[i] = 2;
+    //       }
+    //     } else if (strict !== true) {
+    //       if (calign[i][0] === ':') {
+    //         calign[i] = 1;
+    //       } else {
+    //         calign[i] = 0;
+    //       }
+    //     } else {
+    //       calign[i] = 0;
+    //     }
+    //   }
+
+    //   // START: Changes for Jira Table Syntax - Header Row
+    //   // cel = ['<th>', '<th align="left">', '<th align="right">', '<th align="center">']; // Removed: Not needed for simple Jira
+    //   for (i = 0; i < helper.length; i++) {
+    //     // Original: repstr += cel[calign[i]] + helper[i].trim() + '</th>';
+    //     // Now, each header cell is separated by '||'
+    //     repstr += helper[i].trim() + '||'; // Use || for header separators and final closure
+    //   }
+
+    //   // Original: repstr += '</tr>';
+    //   repstr += '\n'; // Just a newline after the header row
+
+    //   // Removed: The regex matched and captured the alignment line (stra[4]) 
+    //   // which is now discarded by not including it in repstr.
+    //   // END: Changes for Jira Table Syntax - Header Row
+
+    //   // cel = ['<td>', '<td align="left">', '<td align="right">', '<td align="center">']; // Removed: Not needed for simple Jira
+    //   helper1 = stra[7].split('\n');
+    //   for (i = 0; i < helper1.length; i++) {
+    //     helper2 = helper1[i].split('|');
+    //     if (helper2[0].length !== 0) {
+    //       while (calign.length < helper2.length) {
+    //         calign.push(0);
+    //       }
+
+    //       // START: Changes for Jira Table Syntax - Body Rows
+    //       // Original: repstr += '<tr>';
+    //       repstr += '|'; // Start body row with a single pipe |
+
+    //       for (j = 0; j < helper2.length; j++) {
+    //         // Original: repstr += cel[calign[j]] + helper2[j].trim() + '</td>';
+    //         // Each body cell is separated by a single pipe |
+    //         repstr += helper2[j].trim() + '|';
+    //       }
+
+    //       // Original: repstr += '</tr>' + '\n';
+    //       repstr += '\n'; // End the row and add a newline
+    //       // END: Changes for Jira Table Syntax - Body Rows
+    //     }
+    //   }
+
+    //   // START: Changes for Jira Table Syntax - Final cleanup
+    //   // Original: repstr += '</table>';
+    //   // The final table closing tag is now unnecessary
+    //   // END: Changes for Jira Table Syntax - Final cleanup
+
+    //   str = str.replace(stra[0], repstr);
+    // }
 
     /* bold and italic */
     for (i = 0; i < 3; i++) {
